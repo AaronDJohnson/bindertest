@@ -1,0 +1,11 @@
+docker build -t check .
+docker run --name pta -p 8888:8888 -it check
+
+do we want these instructions too?
+Adding the following to Dockerfile might increase the stability of the notebooks:
+
+# Add Tini. Tini operates as a process subreaper for jupyter. This prevents kernel crashes.
+ENV TINI_VERSION v0.6.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
+RUN chmod +x /usr/bin/tini
+ENTRYPOINT ["/usr/bin/tini", "--"]
